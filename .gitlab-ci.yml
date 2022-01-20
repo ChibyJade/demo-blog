@@ -13,7 +13,7 @@ cache:
   paths:
     - vendor/
 
-build-php:
+buildphp:
   stage: "build"
     only:
       - master
@@ -24,7 +24,7 @@ build-php:
     - php composer.phar install --no-dev --optimize-autoloader
     - mkdir -p var && chmod -R 777 var
 
-build-js:
+buildjs:
   stage: "build"
     only:
       - master
