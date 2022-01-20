@@ -52,6 +52,7 @@ test:
   stage: "test"
   only:
     - master
+  image: silarhi/php-apache:8.0-symfony
   script:
     - chmod 777 -R bin
     - bin/phpunit --coverage-text --colors=never
