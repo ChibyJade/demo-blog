@@ -61,5 +61,6 @@ test:
   image: silarhi/php-apache:8.0-symfony
   needs: ["build-php"]
   script:
+    - php composer.phar require symfony/phpunit-bridge
     - chmod 777 -R bin
     - bin/phpunit --coverage-text --colors=never
