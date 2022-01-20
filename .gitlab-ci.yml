@@ -22,8 +22,7 @@ before_script:
   - docker-php-ext-enable xdebug
   # Install and run Composer
   - curl -sS https://getcomposer.org/installer | php
-  - php composer.phar install
-  - composer install --no-dev --optimize-autoloader
+  - php composer.phar install --no-dev --optimize-autoloader
   - yarn install
   - yarn encore production
   - rm -r node_modules
