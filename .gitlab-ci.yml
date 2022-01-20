@@ -18,6 +18,9 @@ build-php:
   stage: "build"
   only:
     - master
+  artifacts:
+    paths:
+      - ./
   script:
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar install --no-dev --optimize-autoloader
@@ -27,6 +30,9 @@ build-js:
   stage: "build"
   only:
     - master
+  artifacts:
+    paths:
+      - ./
   image: node:latest
   script:
     - export NODE_OPTIONS=--openssl-legacy-provider
@@ -55,7 +61,5 @@ test:
   image: silarhi/php-apache:8.0-symfony
   needs: ["build-php"]
   script:
-    - curl -sS https://getcomposer.org/installer | php
-    - php composer.phar require symfony/phpunit-bridge
     - chmod 777 -R bin
     - bin/phpunit --coverage-text --colors=never
