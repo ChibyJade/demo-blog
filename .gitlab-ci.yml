@@ -13,10 +13,10 @@ cache:
   paths:
     - vendor/
 
-buildphp:
+build-php:
   stage: "build"
-    only:
-      - master
+  only:
+    - master
   image: silarhi/php-apache:8.0-symfony
   script:
     # Install and run Composer
@@ -24,10 +24,10 @@ buildphp:
     - php composer.phar install --no-dev --optimize-autoloader
     - mkdir -p var && chmod -R 777 var
 
-buildjs:
+build-js:
   stage: "build"
-    only:
-      - master
+  only:
+    - master
   image: node:latest
   script:
     - yarn install
