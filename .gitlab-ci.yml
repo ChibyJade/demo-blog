@@ -50,8 +50,8 @@ variables:
 # If Xdebug was installed you can generate a coverage report and see code coverage metrics.
 test:
   stage: "test"
-    only:
-      - master
+  only:
+    - master
   script:
     - chmod 777 -R bin
     - bin/phpunit --coverage-text --colors=never
