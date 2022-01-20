@@ -61,6 +61,7 @@ test:
   image: silarhi/php-apache:8.0-symfony
   needs: ["build-php", "build-js"]
   script:
+    - export APP_ENV=test
     - php composer.phar install --optimize-autoloader
     - chmod 777 -R bin
     - bin/phpunit --coverage-text --colors=never
