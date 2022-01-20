@@ -54,5 +54,6 @@ test:
     - master
   image: silarhi/php-apache:8.0-symfony
   script:
+    - php composer require symfony/phpunit-bridge
     - chmod 777 -R bin
     - bin/phpunit --coverage-text --colors=never
