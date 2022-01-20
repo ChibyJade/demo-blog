@@ -8,26 +8,26 @@ stages:
   - test
   - deploy
 
-# Select what we should cache between builds
-cache:
-  paths:
-    - vendor/
-
 default:
+  cache:
+    paths:
+    - vendor/
   image: silarhi/php-apache:8.0-symfony
-  only:
-    - master
   before_script:
     - curl -sS https://getcomposer.org/installer | php
 
 build-php:
   stage: "build"
+  only:
+    - master
   script: 
     - php composer.phar install --no-dev --optimize-autoloader
     - mkdir -p var && chmod -R 777 var
 
 build-js:
   stage: "build"
+  only:
+    - master
   image: node:latest
   script:
     - export NODE_OPTIONS=--openssl-legacy-provider
@@ -51,6 +51,8 @@ variables:
 # If Xdebug was installed you can generate a coverage report and see code coverage metrics.
 test:
   stage: "test"
+  only:
+    - master
   image: silarhi/php-apache:8.0-symfony
   needs: ["build-php"]
   script:
