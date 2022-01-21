@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+    app:
+        image: chibyjade/demo:latest
+        container_name: demo_app
+        env_file:
+            - app.env
+        environment:
+            - APP_MAINTENANCE=0
+            - DATABASE_URL=sqlite:///%kernel.project_dir%/data/database.sqlite
+            - APP_SECRET=2ca64f8d83b9e89f5f19d672841d6bb8
+        volumes:
+            - /app/var/logs
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.labs-ci.rule=Host(`labs.silarhi.fr`)"
+            - "traefik.http.routers.labs-ci.entrypoints=websecure"
+        restart: always
+        networks:
+            - web
+
+networks:
+    web:
+        external: true
