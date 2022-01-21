@@ -11,6 +11,7 @@ ADD assets ./assets
 
 RUN mkdir -p public && \
     NODE_ENV=development yarn install && \
+    export NODE_OPTIONS=--openssl-legacy-provider && \
     yarn run build
 
 FROM silarhi/php-apache:8.0-symfony

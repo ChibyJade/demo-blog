@@ -45,7 +45,6 @@ build-docker:
   only:
     - master
   image: docker:latest
-  needs: ["build-php", "build-js"]
   services:
     - docker:dind
   variables:
