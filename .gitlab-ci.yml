@@ -40,24 +40,24 @@ build-js:
     - yarn build
     - rm -r node_modules
 
-build-docker:
-  stage: "build"
-  only:
-    - master
-  image: docker:latest
-  services:
-    - docker:dind
-  variables:
-    IMAGE_NAME: chibyjade/demo
-    IMAGE_TAG: ${CI_PIPELINE_ID}
-    APP_VERSION: ${IMAGE_TAG}
-    GIT_COMMIT: ${CI_COMMIT_SHA}
-  script:
-    - echo ${DOCKER_PWD} | docker login -u ${DOCKER_LOGIN} --password-stdin
-    - docker info
-    - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} --build-arg APP_VERSION=${APP_VERSION} --build-arg GIT_COMMIT=${GIT_COMMIT} .
-    - chmod +x ./docker-tag.sh && ./docker-tag.sh
-    - docker push ${IMAGE_NAME}
+# build-docker:
+#   stage: "build"
+#   only:
+#     - master
+#   image: docker:latest
+#   services:
+#     - docker:dind
+#   variables:
+#     IMAGE_NAME: chibyjade/demo
+#     IMAGE_TAG: ${CI_PIPELINE_ID}
+#     APP_VERSION: ${IMAGE_TAG}
+#     GIT_COMMIT: ${CI_COMMIT_SHA}
+#   script:
+#     - echo ${DOCKER_PWD} | docker login -u ${DOCKER_LOGIN} --password-stdin
+#     - docker info
+#     - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} --build-arg APP_VERSION=${APP_VERSION} --build-arg GIT_COMMIT=${GIT_COMMIT} .
+#     - chmod +x ./docker-tag.sh && ./docker-tag.sh
+#     - docker push ${IMAGE_NAME}
 
 # Bring in any services we need http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
 # See http://docs.gitlab.com/ee/ci/services/README.html for examples.
