@@ -49,10 +49,10 @@ build-docker:
   services:
     - docker:dind
   variables:
-    - IMAGE_NAME: chibyjade/demo
-    - IMAGE_TAG: ${CI_PIPELINE_ID}
-    - APP_VERSION: ${IMAGE_TAG}
-    - GIT_COMMIT: ${CI_COMMIT_SHA}
+    IMAGE_NAME: chibyjade/demo
+    IMAGE_TAG: ${CI_PIPELINE_ID}
+    APP_VERSION: ${IMAGE_TAG}
+    GIT_COMMIT: ${CI_COMMIT_SHA}
   script:
     - echo ${DOCKER_PWD} | docker login -u ${DOCKER_LOGIN} --password-stdin
     - docker info
