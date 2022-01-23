@@ -13,32 +13,32 @@ default:
     paths:
     - vendor/
 
-build-php:
-  stage: "build"
-  only:
-    - master
-  artifacts:
-    paths:
-      - ./
-  image: silarhi/php-apache:8.0-symfony    
-  script:
-    - curl -sS https://getcomposer.org/installer | php
-    - php composer.phar install --no-dev --optimize-autoloader
-    - mkdir -p var && chmod -R 777 var
+# build-php:
+#   stage: "build"
+#   only:
+#     - master
+#   artifacts:
+#     paths:
+#       - ./
+#   image: silarhi/php-apache:8.0-symfony    
+#   script:
+#     - curl -sS https://getcomposer.org/installer | php
+#     - php composer.phar install --no-dev --optimize-autoloader
+#     - mkdir -p var && chmod -R 777 var
 
-build-js:
-  stage: "build"
-  only:
-    - master
-  artifacts:
-    paths:
-      - ./
-  image: node:latest
-  script:
-    - export NODE_OPTIONS=--openssl-legacy-provider
-    - yarn install
-    - yarn build
-    - rm -r node_modules
+# build-js:
+#   stage: "build"
+#   only:
+#     - master
+#   artifacts:
+#     paths:
+#       - ./
+#   image: node:latest
+#   script:
+#     - export NODE_OPTIONS=--openssl-legacy-provider
+#     - yarn install
+#     - yarn build
+#     - rm -r node_modules
 
 # build-docker:
 #   stage: "build"
@@ -73,17 +73,17 @@ variables:
 
 # Run our tests
 # If Xdebug was installed you can generate a coverage report and see code coverage metrics.
-test:
-  stage: "test"
-  only:
-    - master
-  image: silarhi/php-apache:8.0-symfony
-  needs: ["build-php"]
-  script:
-    - export APP_ENV=test
-    - php composer.phar install --optimize-autoloader
-    - chmod 777 -R bin
-    - bin/phpunit --coverage-text --colors=never
+# test:
+#   stage: "test"
+#   only:
+#     - master
+#   image: silarhi/php-apache:8.0-symfony
+#   needs: ["build-php"]
+#   script:
+#     - export APP_ENV=test
+#     - php composer.phar install --optimize-autoloader
+#     - chmod 777 -R bin
+#     - bin/phpunit --coverage-text --colors=never
 
 deploy:
   stage: "deploy"
