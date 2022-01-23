@@ -10,4 +10,4 @@ docker-compose pull
 # sleep 10; #for demo purpose
 
 #back to prod
-APP_ENV=$APP_ENV APP_MAINTENANCE=$APP_MAINTENANCE docker-compose up -d
+docker-compose up -d
