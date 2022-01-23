@@ -96,4 +96,5 @@ deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\nStrictHostKeyChecking no\n" > ~/.ssh/config'
     - ssh-add <(echo "$DEPLOYER_PK")
   script:
+    - chmod +x ./deploy.sh
     - ssh ${DEPLOYER_USERNAME}@${PRODUCTION_SERVER_IP} "cd ${PRODUCTION_SERVER_PATH} && ./deploy.sh"
