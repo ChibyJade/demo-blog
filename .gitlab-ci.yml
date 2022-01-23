@@ -56,7 +56,7 @@ build-docker:
     - echo ${DOCKER_PWD} | docker login -u ${DOCKER_LOGIN} --password-stdin
     - docker info
     - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} --build-arg APP_VERSION=${APP_VERSION} --build-arg GIT_COMMIT=${GIT_COMMIT} .
-    - chmod +x ./docker-tag.sh && ./docker-tag.sh
+    - chmod +x ./ci/docker-tag.sh && ./ci/docker-tag.sh
     - docker push ${IMAGE_NAME}
 
 # Bring in any services we need http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
@@ -81,7 +81,7 @@ test:
   script:
     - export APP_ENV=test
     - php composer.phar install --optimize-autoloader
-    - chmod 777 -R bin
+    - chmod +x -R bin
     - bin/phpunit --coverage-text --colors=never
 
 deploy:
@@ -94,5 +94,4 @@ deploy:
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\nStrictHostKeyChecking no\n" > ~/.ssh/config'
     - ssh-add <(echo "$DEPLOYER_PK")
-    - chmod +x ./deploy.sh
     - ssh $DEPLOYER_USERNAME@$PRODUCTION_SERVER_IP "cd $PRODUCTION_SERVER_PATH && ./deploy.sh"

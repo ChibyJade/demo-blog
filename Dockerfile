@@ -54,4 +54,4 @@ RUN mkdir -p var && \
     mkdir -p var/storage && \
     chown -R www-data:www-data var && \
     # Reduce container size
-    rm -rf .git assets /root/.composer /tmp/*
+    rm -rf .git assets /root/.composer /tmp/* ci
