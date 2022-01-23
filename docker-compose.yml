@@ -1,25 +1,27 @@
 version: "3.9"
 
+networks:
+    web:
+        external: true
+    internal:
+        external: false
+
 services:
-    app:
+    demo:
         image: chibyjade/demo:latest
-        container_name: demo_app
-        env_file:
-            - app.env
+        networks:
+        - internal
+        - web
+        restart: always
         environment:
-            - APP_MAINTENANCE=0
+            - APP_MAINTENANCE
+            - APP_ENV=production
             - DATABASE_URL=sqlite:///%kernel.project_dir%/data/database.sqlite
             - APP_SECRET=2ca64f8d83b9e89f5f19d672841d6bb8
         volumes:
             - /app/var/logs
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.labs-ci.rule=Host(`labs.silarhi.fr`)"
-            - "traefik.http.routers.labs-ci.entrypoints=websecure"
-        restart: always
-        networks:
-            - web
-
-networks:
-    web:
-        external: true
+        - "traefik.http.routers.demo.rule=Host(`demo.jadexau.fr`)"
+        - "traefik.http.routers.demo.tls=true"
+        - "traefik.http.routers.demo.tls.certresolver=lets-encrypt"
+        - "traefik.port=80"
