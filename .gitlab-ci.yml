@@ -20,7 +20,7 @@ build-php:
   artifacts:
     paths:
       - ./
-  image: silarhi/php-apache:8.0-symfony    
+  image: chibyjade/php-8.0:latest   
   script:
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar install --no-dev --optimize-autoloader
@@ -76,7 +76,7 @@ test:
   stage: "test"
   only:
     - master
-  image: silarhi/php-apache:8.0-symfony
+  image: chibyjade/php-8.0:latest
   needs: ["build-php"]
   script:
     - export APP_ENV=test
