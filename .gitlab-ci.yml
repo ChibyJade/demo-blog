@@ -22,8 +22,7 @@ build-php:
       - ./
   image: chibyjade/php-8.0:latest   
   script:
-    - curl -sS https://getcomposer.org/installer | php
-    - php composer.phar install --no-dev --optimize-autoloader
+    - composer install --no-dev --optimize-autoloader
     - mkdir -p var && chmod -R 777 var
 
 build-js:
@@ -80,7 +79,7 @@ test:
   needs: ["build-php"]
   script:
     - export APP_ENV=test
-    - php composer.phar install --optimize-autoloader
+    - composer install --optimize-autoloader
     - chmod +x -R bin
     - bin/phpunit --coverage-text --colors=never
 
@@ -94,4 +93,6 @@ deploy:
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\nStrictHostKeyChecking no\n" > ~/.ssh/config'
     - ssh-add <(echo "$DEPLOYER_PK")
+    - scp -p ci/docker-compose.yml $DEPLOYER_USERNAME@$PRODUCTION_SERVER_IP:$PRODUCTION_SERVER_PATH
+    - scp -p ci/deploy.sh $DEPLOYER_USERNAME@$PRODUCTION_SERVER_IP:$PRODUCTION_SERVER_PATH
     - ssh $DEPLOYER_USERNAME@$PRODUCTION_SERVER_IP "cd $PRODUCTION_SERVER_PATH && export APP_MAINTENANCE=$APP_MAINTENANCE && export APP_ENV=$APP_ENV && ./deploy.sh"
