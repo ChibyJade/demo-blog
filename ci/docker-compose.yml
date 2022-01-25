@@ -15,7 +15,7 @@ services:
         restart: always
         environment:
             - APP_MAINTENANCE
-            - APP_ENV=production
+            - APP_ENV
             - DATABASE_URL=sqlite:///%kernel.project_dir%/data/database.sqlite
             - APP_SECRET=2ca64f8d83b9e89f5f19d672841d6bb8
         volumes:
