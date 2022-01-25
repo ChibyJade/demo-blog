@@ -87,8 +87,9 @@ deploy:
   stage: "deploy"
   only:
     - master
+  image: alpine:3.15
   script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'which ssh-agent || ( apk -U upgrade && apk add openssh-client )'
     - mkdir -p ~/.ssh
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\nStrictHostKeyChecking no\n" > ~/.ssh/config'
