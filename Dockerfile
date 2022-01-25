@@ -14,7 +14,7 @@ RUN mkdir -p public && \
     export NODE_OPTIONS=--openssl-legacy-provider && \
     yarn run build
 
-FROM silarhi/php-apache:8.0-symfony
+FROM chibyjade/php-8.0:latest
 
 # 2nd stage : build the real app container
 EXPOSE 80
@@ -25,18 +25,6 @@ ARG APP_VERSION=dev
 ARG GIT_COMMIT=master
 ENV APP_VERSION=$APP_VERSION
 ENV GIT_COMMIT=$GIT_COMMIT
-
-# libs for image manipulation with gd
-RUN apt-get update -qq && \
-    apt-get install -qy \
-    libmagickwand-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev
-
-# PHP extensions for gd
-RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && \
-    docker-php-ext-install gd exif
 
 COPY . /app
 COPY --from=builder /app/public/build /app/public/build
