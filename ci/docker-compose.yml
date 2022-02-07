@@ -21,7 +21,7 @@ services:
         volumes:
             - /app/var/logs
         labels:
-        - "traefik.http.routers.demo.rule=Host(`$APP_URL`)"
+        - "traefik.http.routers.demo.rule=Host(`${APP_URL}`)"
         - "traefik.http.routers.demo.tls=true"
         - "traefik.http.routers.demo.tls.certresolver=lets-encrypt"
         - "traefik.port=80"
