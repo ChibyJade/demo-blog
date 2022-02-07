@@ -58,3 +58,15 @@ $ ./bin/phpunit
 [2]: https://symfony.com/doc/current/reference/requirements.html
 [3]: https://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html
 [4]: https://symfony.com/download
+
+Production 
+-----
+
+If you use the .gitlab.ci.yml file (with GitLab CI) to push the application in production, you will need a server with Docker, Docker-compose and Traefik installed.
+
+Add these environment variables in your CI application:
+
+* APP_ENV (prod)
+* APP_MAINTENANCE (0 or 1)
+* APP_URL (domain for traefik)
+* PRODUCTION_SERVER_PATH (the path where the application will be installed)
