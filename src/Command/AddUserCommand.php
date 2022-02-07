@@ -121,7 +121,7 @@ class AddUserCommand extends Command
         // Ask for the username if it's not defined
         $username = $input->getArgument('username');
         if (null !== $username) {
-            $this->io->text(' > <info>Username</info>: '.$username);
+            $this->io->text(' > <info>Username</info>: ' . $username);
         } else {
             $username = $this->io->ask('Username', null, [$this->validator, 'validateUsername']);
             $input->setArgument('username', $username);
@@ -130,7 +130,7 @@ class AddUserCommand extends Command
         // Ask for the password if it's not defined
         $password = $input->getArgument('password');
         if (null !== $password) {
-            $this->io->text(' > <info>Password</info>: '.u('*')->repeat(u($password)->length()));
+            $this->io->text(' > <info>Password</info>: ' . u('*')->repeat(u($password)->length()));
         } else {
             $password = $this->io->askHidden('Password (your type will be hidden)', [$this->validator, 'validatePassword']);
             $input->setArgument('password', $password);
@@ -139,7 +139,7 @@ class AddUserCommand extends Command
         // Ask for the email if it's not defined
         $email = $input->getArgument('email');
         if (null !== $email) {
-            $this->io->text(' > <info>Email</info>: '.$email);
+            $this->io->text(' > <info>Email</info>: ' . $email);
         } else {
             $email = $this->io->ask('Email', null, [$this->validator, 'validateEmail']);
             $input->setArgument('email', $email);
@@ -148,7 +148,7 @@ class AddUserCommand extends Command
         // Ask for the full name if it's not defined
         $fullName = $input->getArgument('full-name');
         if (null !== $fullName) {
-            $this->io->text(' > <info>Full Name</info>: '.$fullName);
+            $this->io->text(' > <info>Full Name</info>: ' . $fullName);
         } else {
             $fullName = $this->io->ask('Full Name', null, [$this->validator, 'validateFullName']);
             $input->setArgument('full-name', $fullName);

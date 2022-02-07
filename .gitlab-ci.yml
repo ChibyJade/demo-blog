@@ -73,16 +73,16 @@ security-checker:
     - local-php-security-checker  --path=./composer.lock
   allow_failure: false
 
-phpcs:
-  stage: CodingStandards
-  needs: ["build-php"]
-  only:
-    - master
-    - tests
-  image: jakzal/phpqa:php8.0-alpine
-  script:
-    - phpcs -v --standard=PSR12 --ignore=./src/Kernel.php ./src
-  allow_failure: false
+# phpcs:
+#   stage: CodingStandards
+#   needs: ["build-php"]
+#   only:
+#     - master
+#     - tests
+#   image: jakzal/phpqa:php8.0-alpine
+#   script:
+#     - phpcs -v --standard=PSR12 --ignore=./src/Kernel.php ./src
+#   allow_failure: false
 
 phpstan:
   stage: CodingStandards
