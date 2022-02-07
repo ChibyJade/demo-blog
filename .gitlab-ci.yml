@@ -5,7 +5,9 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/PHP.gitlab-ci.yml
 stages:
   - build
-  - test
+  - SecurityChecker
+  - CodingStandards
+  - UnitTests
   - deploy
 
 default:
@@ -17,13 +19,14 @@ build-php:
   stage: "build"
   only:
     - master
+    - tests
   artifacts:
     paths:
       - ./
   image: chibyjade/php-8.0:latest   
   script:
-    - composer install --no-dev --optimize-autoloader
-    - mkdir -p var && chmod -R 777 var
+    - APP_ENV=test composer install --prefer-dist --optimize-autoloader --classmap-authoritative --no-interaction --no-ansi
+    - mkdir -p var && chmod -R 777 var && chmod +x -R bin
 
 build-js:
   stage: "build"
@@ -58,30 +61,60 @@ build-docker:
     - chmod +x ./ci/docker-tag.sh && ./ci/docker-tag.sh
     - docker push ${IMAGE_NAME}
 
-# Bring in any services we need http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
-# See http://docs.gitlab.com/ee/ci/services/README.html for examples.
-# services:
-#   - mysql:5.7
-
-# Set any variables we need
-variables:
-  # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
-  # MYSQL_DATABASE: mysql_database
-  # MYSQL_ROOT_PASSWORD: mysql_strong_password
-
-# Run our tests
-# If Xdebug was installed you can generate a coverage report and see code coverage metrics.
-test:
-  stage: "test"
+security-checker:
+  stage: SecurityChecker
+  needs: ["build-php"]
   only:
     - master
-  image: chibyjade/php-8.0:latest
-  needs: ["build-php"]
+    - tests
+  image: jakzal/phpqa:php8.0-alpine
   script:
-    - export APP_ENV=test
-    - composer install --optimize-autoloader
-    - chmod +x -R bin
-    - bin/phpunit --coverage-text --colors=never
+    - local-php-security-checker  --path=./composer.lock
+  allow_failure: false
+
+phpcs:
+  stage: CodingStandards
+  needs: ["build-php"]
+  only:
+    - master
+    - tests
+  image: jakzal/phpqa:php8.0-alpine
+  script:
+    - phpcs -v --standard=PSR12 --ignore=./src/Kernel.php ./src
+  allow_failure: false
+
+phpstan:
+  stage: CodingStandards
+  needs: ["build-php"]
+  only:
+    - master
+    - tests
+  image: jakzal/phpqa:php8.0-alpine
+  script:
+    - phpstan analyse ./src
+  allow_failure: false
+
+twig-lint:
+  needs: ["build-php"]
+  stage: CodingStandards
+  only:
+    - master
+    - tests
+  image: jakzal/phpqa:php8.0-alpine
+  script:
+    - twig-lint lint ./templates
+  allow_failure: false
+
+phpunit:
+  stage: UnitTests
+  needs: ["build-php"]
+  only:
+    - master
+    - tests
+  image: chibyjade/php-8.0:latest
+  script:
+    - make tests
+  allow_failure: false  
 
 deploy:
   stage: "deploy"
