@@ -46,8 +46,7 @@ class TagsInputType extends AbstractType
             // but here we're doing the transformation in two steps (Collection <-> array <-> string)
             // and reuse the existing CollectionToArrayTransformer.
             ->addModelTransformer(new CollectionToArrayTransformer(), true)
-            ->addModelTransformer(new TagArrayToStringTransformer($this->tags), true)
-        ;
+            ->addModelTransformer(new TagArrayToStringTransformer($this->tags), true);
     }
 
     /**

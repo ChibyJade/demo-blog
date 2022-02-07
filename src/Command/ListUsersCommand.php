@@ -59,7 +59,8 @@ class ListUsersCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setHelp(<<<'HELP'
+            ->setHelp(
+                <<<'HELP'
                 The <info>%command.name%</info> command lists all the users registered in the application:
 
                   <info>php %command.full_name%</info>
@@ -78,8 +79,7 @@ class ListUsersCommand extends Command
             // commands can optionally define arguments and/or options (mandatory and optional)
             // see https://symfony.com/doc/current/components/console/console_arguments.html
             ->addOption('max-results', null, InputOption::VALUE_OPTIONAL, 'Limits the number of users listed', 50)
-            ->addOption('send-to', null, InputOption::VALUE_OPTIONAL, 'If set, the result is sent to the given email address')
-        ;
+            ->addOption('send-to', null, InputOption::VALUE_OPTIONAL, 'If set, the result is sent to the given email address');
     }
 
     /**

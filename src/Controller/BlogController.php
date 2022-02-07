@@ -59,7 +59,7 @@ class BlogController extends AbstractController
         // Every template name also has two extensions that specify the format and
         // engine for that template.
         // See https://symfony.com/doc/current/templates.html#template-naming
-        return $this->render('blog/index.'.$_format.'.twig', [
+        return $this->render('blog/index.' . $_format . '.twig', [
             'paginator' => $latestPosts,
             'tagName' => $tag ? $tag->getName() : null,
         ]);
