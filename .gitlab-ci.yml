@@ -32,6 +32,7 @@ build-js:
   stage: "build"
   only:
     - master
+    - tests
   artifacts:
     paths:
       - ./
